@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zidan Cinema - Nonton Film Premium</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap');
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #0f0f1a;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        
+        .film-card {
+            transition: all 0.3s ease;
+            transform-origin: center;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .film-card:hover {
+            transform: scale(1.05) translateY(-10px);
+            z-index: 10;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .genre-tab {
+            transition: all 0.2s ease;
+        }
+        
+        .genre-tab:hover, .genre-tab.active {
+            background: linear-gradient(90deg, #e94560 0%, #b72a48 100%);
+            transform: scale(1.05);
+        }
+        
+        .player-container {
+            aspect-ratio: 16/9;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            padding-top: 60px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="bg-black bg-opacity-90 text-white py-4 px-6 fixed w-full z-50">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center">
+                <h1 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-pink-500">
+                    ZIDAN CINEMA
+                </h1>
+                <ul class="flex space-x-6 ml-10">
+                    <li><a href="#home" class="hover:text-red-400 transition">Beranda</a></li>
+                    <li><a href="#trending" class="hover:text-red-400 transition">Trending</a></li>
+                    <li><a href="#genre" class="hover:text-red-400 transition">Genre</a></li>
+                    <li><a href="#new" class="hover:text-red-400 transition">Terbaru</a></li>
+                </ul>
+            </div>
+            <div class="flex items-center space-x-2">
+                <div class="relative">
+                    <input type="text" placeholder="Cari film..." class="bg-gray-800 px-5 py-2 rounded-full w-64 focus:outline-none focus:ring-2 focus:ring-red-500">
+                    <button class="absolute right-4 top-2 text-gray-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </button>
+                </div>
+                <button class="bg-gradient-to-r from-red-500 to-pink-500 px-6 py-2 rounded-full font-semibold hover:opacity-90 transition" onclick="showLogin()">Login</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-gradient pt-40 pb-28 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="w-full max-w-3xl mx-auto text-center">
+                <h2 class="text-4xl lg:text-5xl font-bold mb-4 leading-tight">Nikmati Pengalaman <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-pink-500">Nonton Film Premium</span></h2>
+                <p class="text-lg text-gray-300 mb-8">Ribuan film berkualitas tinggi siap menemani waktu santai Anda. Tersedia dalam berbagai genre dan selalu update dengan film terbaru.</p>
+                <div class="flex justify-center space-x-4">
+                    <button class="bg-gradient-to-r from-red-500 to-pink-500 px-8 py-3 rounded-lg font-semibold text-lg hover:opacity-90 transition">
+                        Mulai Nonton
+                    </button>
+                    <button class="bg-white bg-opacity-20 px-8 py-3 rounded-lg font-semibold text-lg hover:bg-opacity-30 transition" onclick="showRegister()">
+                        Daftar Sekarang
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trending Section -->
+    <section id="trending" class="py-16 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex justify-between items-center mb-10">
+                <h2 class="text-3xl font-bold">🔥 Trending Minggu Ini Wak</h2>
+                <a href="#" class="text-pink-500 hover:underline">Lihat Semua</a>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+                <!-- Film Trending 1 -->
+                <div class="film-card relative group rounded-lg overflow-hidden cursor-pointer" onclick="playFilm('https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/11474a7c-898a-4016-889e-eee4dd02f038.png', 'John Wick 4')">
+                    <img src="RIDWAN.jpeg" alt="John Wick 4 poster film action dengan Keanu Reeves memegang senjata dengan latar belakang kota malam" class="w-full h-auto rounded-lg">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-4">
+                        <div>
+                            <h3 class="font-bold text-lg">RIDWAN 4</h3>
+                            <div class="flex items-center mt-2">
+                                <span class="bg-yellow-500 text-black text-xs px-1 rounded mr-1">HD</span>
+                                <span class="text-xs">Action</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Film Trending 2 -->
+                <div class="film-card relative group rounded-lg overflow-hidden cursor-pointer" onclick="playFilm('https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/45055fdf-0e36-433a-b97a-979cf4ec81ba.png', 'Avatar 2')">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/f9f79892-d83a-419d-9144-351fbdc6b4f0.png" alt="Avatar 2 poster film sci-fi dengan karakter biru di dunia Pandora dengan visual efek spektakuler" class="w-full h-auto rounded-lg">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-4">
+                        <div>
+                            <h3 class="font-bold text-lg">Avatar 2</h3>
+                            <div class="flex items-center mt-2">
+                                <span class="bg-yellow-500 text-black text-xs px-1 rounded mr-1">HD</span>
+                                <span class="text-xs">Sci-Fi</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Film Trending 3 -->
+                <div class="film-card relative group rounded-lg overflow-hidden cursor-pointer" onclick="playFilm('https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/a2c9d395-8737-48fe-8317-dfc19737ebd8.png', 'Mission: Impossible 7')">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/b461b028-9285-4b5c-b440-0841464a6c06.png" alt="Mission Impossible 7 poster film action dengan Tom Cruise berlari di depan ledakan besar" class="w-full h-auto rounded-lg">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-4">
+                        <div>
+                            <h3 class="font-bold text-lg">Mission: Impossible 7</h3>
+                            <div class="flex items-center mt-2">
+                                <span class="bg-yellow-500 text-black text-xs px-1 rounded mr-1">HD</span>
+                                <span class="text-xs">Action</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Film Trending 4 -->
+                <div class="film-card relative group rounded-lg overflow-hidden cursor-pointer" onclick="playFilm('https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/b50df7ab-3761-4adc-97be-286a7277972e.png', 'The Batman')">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/ca75ca36-c8cc-4a90-bbd5-985703583fe4.png" alt="The Batman poster film superhero dengan Robert Pattinson sebagai Batman berdiri di tengah hujan" class="w-full h-auto rounded-lg">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-4">
+                        <div>
+                            <h3 class="font-bold text-lg">The Batman</h3>
+                            <div class="flex items-center mt-2">
+                                <span class="bg-yellow-500 text-black text-xs px-1 rounded mr-1">HD</span>
+                                <span class="text-xs">Superhero</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Film Trending 5 -->
+                <div class="film-card relative group rounded-lg overflow-hidden cursor-pointer" onclick="playFilm('https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/70df2e60-d7ba-4d1a-8bcb-6c4e28b3da23.png', 'Top Gun: Maverick')">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/d06e47b2-9bb6-4322-91de-80865818a01f.png" alt="Top Gun Maverick poster film action dengan Tom Cruise mengenakan kacamata pilot di depan pesawat tempur" class="w-full h-auto rounded-lg">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-4">
+                        <div>
+                            <h3 class="font-bold text-lg">Top Gun: Maverick</h3>
+                            <div class="flex items-center mt-2">
+                                <span class="bg-yellow-500 text-black text-xs px-1 rounded mr-1">HD</span>
+                                <span class="text-xs">Action</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Film Trending 6 -->
+                <div class="film-card relative group rounded-lg overflow-hidden cursor-pointer" onclick="playFilm('https://placehold.co/1920x1080', 'Black Panther: Wakanda Forever')">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/5912fa8e-7b1a-4ffb-b0bb-938787ba4596.png" alt="Black Panther Wakanda Forever poster film superhero dengan karakter Black Panther baru di depan kerajaan Wakanda" class="w-full h-auto rounded-lg">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-4">
+                        <div>
+                            <h3 class="font-bold text-lg">Black Panther: Wakanda Forever</h3>
+                            <div class="flex items-center mt-2">
+                                <span class="bg-yellow-500 text-black text-xs px-1 rounded mr-1">HD</span>
+                                <span class="text-xs">Superhero</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Genre Tabs -->
+    <section id="genre" class="py-10 px-6 bg-gray-900">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-3xl font-bold mb-8">Telusuri Berdasarkan Genre</h2>
+            
+            <div class="flex flex-wrap gap-3 mb-10">
+                <button class="genre-tab px-6 py-2 rounded-full bg-gray-800 font-medium hover:bg-gray-700 active">Semua</button>
+                <button class="genre-tab px-6 py-2 rounded-full bg-gray-800 font-medium hover:bg-gray-700">Action</button>
+                <button class="genre-tab px-6 py-2 rounded-full bg-gray-800 font-medium hover:bg-gray-700">Horror</button>
+                <button class="genre-tab px-6 py-2 rounded-full bg-gray-800 font-medium hover:bg-gray-700">Romance</button>
+                <button class="genre-tab px-6 py-2 rounded-full bg-gray-800 font-medium hover:bg-gray-700">Sci-Fi</button>
+                <button class="genre-tab px-6 py-2 rounded-full bg-gray-800 font-medium hover:bg-gray-700">Comedy</button>
+                <button class="genre-tab px-6 py-2 rounded-full bg-gray-800 font-medium hover:bg-gray-700">Drama</button>
+                <button class="genre-tab px-6 py-2 rounded-full bg-gray-800 font-medium hover:bg-gray-700">Thriller</button>
+                <button class="genre-tab px-6 py-2 rounded-full bg-gray-800 font-medium hover:bg-gray-700">Animation</button>
+                <button class="genre-tab px-6 py-2 rounded-full bg-gray-800 font-medium hover:bg-gray-700">Superhero</button>
+            </div>
+            
+            <!-- Action Section -->
+            <div class="mb-16" id="action-section">
+                <h3 class="text-2xl font-bold mb-6 flex items-center">
+                    <span class="w-2 h-6 bg-red-500 mr-2"></span>
+                    Action
+                </h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-5">
+                    <!-- Action Film 1 -->
+                    <div class="film-card relative group rounded-lg overflow-hidden cursor-pointer" onclick="playFilm('https://placehold.co/1920x1080', 'John Wick 4')">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/f7a694ff-7116-4ea8-9a19-ad18f4eb4fdb.png" alt="John Wick 4 poster film action dengan Keanu Reeves memegang senjata dengan latar belakang kota malam" class="w-full h-auto rounded-lg">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-4">
+                            <div>
+                                <h3 class="font-bold text-sm">John Wick 4</h3>
+                                <div class="flex items-center mt-1">
+                                    <span class="bg-yellow-500 text-black text-xs px-1 rounded mr-1">HD</span>
+                                    <span class="text-xs">2023</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Film 2 -->
+                    <div class="film-card relative group rounded-lg overflow-hidden cursor-pointer" onclick="playFilm('https://placehold.co/1920x1080', 'The Equalizer 3')">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/506fe989-7eb4-4b7e-a7cb-3a9472a5cd2d.png" alt="The Equalizer 3 poster film action dengan Denzel Washington tampil garang siap bertarung" class="w-full h-auto rounded-lg">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-4">
+                            <div>
+                                <h3 class="font-bold text-sm">The Equalizer 3</h3>
+                                <div class="flex items-center mt-1">
+                                    <span class="bg-yellow-500 text-black text-xs px-1 rounded mr-1">HD</span>
+                                    <span class="text-xs">2023</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Film 3 -->
+                    <div class="film-card relative group rounded-lg overflow-hidden cursor-pointer" onclick="playFilm('https://placehold.co/1920x1080', 'Extraction 2')">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/e616e94c-0f18-4c82-8947-a03c8260904c.png" alt="Extraction 2 poster film action dengan Chris Hemsworth memegang senjata di tengah pertempuran" class="w-full h-auto rounded-lg">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-4">
+                            <div>
+                                <h3 class="font-bold text-sm">Extraction 2</h3>
+                                <div class="flex items-center mt-1">
+                                    <span class="bg-yellow-500 text-black text-xs px-1 rounded mr-1">HD</span>
+                                    <span class="text-xs">2023</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Film 4 -->
+                    <div class="film-card relative group rounded-lg overflow-hidden cursor-pointer" onclick="playFilm('https://placehold.co/1920x1080', 'Fast X')">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/dfef9e7a-b2d8-404a-9907-77e3a83c4d54.png" alt="Fast X poster film action dengan mobil-mobil keren dan ledakan spektakuler" class="w-full h-auto rounded-lg">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-4">
+                            <div>
+                                <h3 class="font-bold text-sm">Fast X</h3>
+                                <div class="flex items-center mt-1">
+                                    <span class="bg-yellow-500 text-black text-xs px-1 rounded mr-1">HD</span>
+                                    <span class="text-xs">2023</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Film 5 -->
+                    <div class="film-card relative group rounded-lg overflow-hidden cursor-pointer" onclick="playFilm('https://placehold.co/1920x1080', 'The Expendables 4')">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/4656a1e4-f003-479e-9e84-a2d829a7ba15.png" alt="The Expendables 4 poster film action dengan Sylvester Stallone dan timnya siap bertempur" class="w-full h-auto rounded-lg">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-4">
+                            <div>
+                                <h3 class="font-bold text-sm">The Expendables 4</h3>
+                                <div class="flex items-center mt-1">
+                                    <span class="bg-yellow-500 text-black text-xs px-1 rounded mr-1">HD</span>
+                                    <span class="text-xs">2023</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Film 6 -->
+                    <div class="film-card relative group rounded-lg overflow-hidden cursor-pointer" onclick="playFilm('https://placehold.co/1920x1080', 'Hard Kill')">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/c5991ee5-5784-44a6-8024-a48173e1da8e.png" alt="Hard Kill poster film action dengan adegan tembak-menembak intens dan Bruce Willis sebagai bintang utama" class="w-full h-auto rounded-lg">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-4">
+                            <div>
+                                <h3 class="font-bold text-sm">Hard Kill</h3>
+                                <div class="flex items-center mt-1">
+                                    <span class="bg-yellow-500 text-black text-xs px-1 rounded mr-1">HD</span>
+                                    <span class="text-xs">2023</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Horror Section -->
+            <div class="mb-16" id="horror-section">
+                <h3 class="text-2xl font-bold mb-6 flex items-center">
+                    <span class="w-2 h-6 bg-purple-500 mr-2"></span>
+                    Horror
+                </h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-5">
+                    <!-- Horror Film 1 -->
+                    <div class="film-card relative group rounded-lg overflow-hidden cursor-pointer" onclick="playFilm('https://placehold.co/1920x1080', 'The Nun 2')">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/71930179-b918-4438-b7bc-6dd9838fd808.png" alt="The Nun 2 poster film horror dengan biarawati menyeramkan di lorong gereja gelap" class="w-full h-auto rounded-lg">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-4">
+                            <div>
+                                <h3 class="font-bold text-sm">The Nun 2</h3>
+                                <div class="flex items-center mt-1">
+                                    <span class="bg-yellow-500 text-black text-xs px-1 rounded mr-1">HD</span>
+                                    <span class="text-xs">2023</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Horror Film 2 -->
+                    <div class="film-card relative group rounded-lg overflow-hidden cursor-pointer" onclick="playFilm('https://placehold.co/1920x1080', 'Insidious: The Red Door')">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/9464bd0a-bb1b-4aea-a4d8-34142c9b1928.png" alt="Insidious The Red Door poster film horror dengan pintu merah menyeramkan dan bayangan hantu" class="w-full h-auto rounded-lg">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-4">
+                            <div>
+                                <h3 class="font-bold text-sm">Insidious: The Red Door</h3>
+                                <div class="flex items-center mt-1">
+                                    <span class="bg-yellow-500 text-black text-xs px-1 rounded mr-1">HD</span>
+                                    <span class="text-xs">2023</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Horror Film 3 -->
+                    <div class="film-card relative group rounded-lg overflow-hidden cursor-pointer" onclick="playFilm('https://placehold.co/1920x1080', 'The Exorcist: Believer')">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/b4dda9c5-0a6c-460c-8fd8-20e11352e9cb.png" alt="The Exorcist Believer poster film horror dengan anak perempuan kesurupan dan pendeta" class="w-full h-auto rounded-lg">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-4">
+                            <div>
+                                <h3 class="font-bold text-sm">The Exorcist: Believer</h3>
+                                <div class="flex items-center mt-1">
+                                    <span class="bg-yellow-500 text-black text-xs px-1 rounded mr-1">HD</span>
+                                    <span class="text-xs">2023</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Horror Film 4 -->
+                    <div class="film-card relative group rounded-lg overflow-hidden cursor-pointer" onclick="playFilm('https://placehold.co/1920x1080', 'Saw X')">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/3b6a5046-f968-4d3a-a4aa-47b5a5578b40.png" alt="Saw X poster film horror dengan boneka Billy di tengah perangkap mengerikan" class="w-full h-auto rounded-lg">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-4">
+                            <div>
+                                <h3 class="font-bold text-sm">Saw X</h3>
+                                <div class="flex items-center mt-1">
+                                    <span class="bg-yellow-500 text-black text-xs px-1 rounded mr-1">HD</span>
+                                    <span class="text-xs">2023</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Horror Film 5 -->
+                    <div class="film-card relative group rounded-lg overflow-hidden cursor-pointer" onclick="playFilm('https://placehold.co/1920x1080', 'Talk to Me')">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/37562d29-e74c-4f71-a42f-3d9aae956ff2.png" alt="Talk to Me poster film horror dengan tangan mengerikan dan sekelompok remaja ketakutan" class="w-full h-auto rounded-lg">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-4">
+                            <div>
+                                <h3 class="font-bold text-sm">Talk to Me</h3>
+                                <div class="flex items-center mt-1">
+                                    <span class="bg-yellow-500 text-black text-xs px-1 rounded mr-1">HD</span>
+                                    <span class="text-xs">2023</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Horror Film 6 -->
+                    <div class="film-card relative group rounded-lg overflow-hidden cursor-pointer" onclick="playFilm('https://placehold.co/1920x1080', 'Evil Dead Rise')">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/3d749c2a-0e8f-47d2-869d-0b70974c4efa.png" alt="Evil Dead Rise poster film horror dengan makhluk mengerikan dan darah di mana-mana" class="w-full h-auto rounded-lg">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-4">
+                            <div>
+                                <h3 class="font-bold text-sm">Evil Dead Rise</h3>
+                                <div class="flex items-center mt-1">
+                                    <span class="bg-yellow-500 text-black text-xs px-1 rounded mr-1">HD</span>
+                                    <span class="text-xs">2023</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Romance Section -->
+            <div class="mb-16" id="romance-section">
+                <h3 class="text-2xl font-bold mb-6 flex items-center">
+                    <span class="w-2 h-6 bg-pink-500 mr-2"></span>
+                    Romance
+                </h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-5">
+                    <!-- Romance Film 1 -->
+                    <div class="film-card relative group rounded-lg overflow-hidden cursor-pointer" onclick="playFilm('https://placehold.co/1920x1080', 'Anyone But You')">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/0c18e287-26e5-4f0f-a33e-5bdd17895f9a.png" alt="Anyone But You poster film romantis dengan pasangan saling memandang di pantai saat matahari terbenam" class="w-full h-auto rounded-lg">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-4">
+                            <div>
+                                <h3 class="font-bold text-sm">Anyone But You</h3>
+                                <div class="flex items-center mt-1">
+                                    <span class="bg-yellow-500 text-black text-xs px-1 rounded mr-1">HD</span>
+                                    <span class="text-xs">2023</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Romance Film 2 -->
+                    <div class="film-card relative group rounded-lg overflow-hidden cursor-pointer" onclick="playFilm('https://placehold.co/1920x1080', 'The Notebook')">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/39815ebb-8d03-4dca-b23f-54698892bb54.png" alt="The Notebook poster film romantis klasik dengan Ryan Gosling dan Rachel McAdams berpelukan di tengah hujan" class="w-full h-auto rounded-lg">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-4">
+                            <div>
+                                <h3 class="font-bold text-sm">The Notebook</h3>
+                                <div class="flex items-center mt-1">
+                                    <span class="bg-yellow-500 text-black text-xs px-1 rounded mr-1">HD</span>
+                                    <span class="text-xs">2004</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Romance Film 3 -->
+                    <div class="film-card relative group rounded-lg overflow-hidden cursor-pointer" onclick="playFilm('https://placehold.co/1920x1080', 'Past Lives')">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/52ff86dd-6c44-43d8-bff3-e4abae271e67.png" alt="Past Lives poster film romantis dengan pasangan berdiri berhadapan di kota besar di malam hari" class="w-full h-auto rounded-lg">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-4">
+                            <div>
+                                <h3 class="font-bold text-sm">Past Lives</h3>
+                                <div class="flex items-center mt-1">
+                                    <span class="bg-yellow-500 text-black text-xs px-1 rounded mr-1">HD</span>
+                                    <span class="text-xs">2023</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Romance Film 4 -->
+                    <div class="film-card relative group rounded-lg overflow-hidden cursor-pointer" onclick="playFilm('https://placehold.co/1920x1080', 'A Star Is Born')">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/f6f5514b-009b-4304-8b86-d54a435efc14.png" alt="A Star Is Born poster film romantis musikal dengan Lady Gaga dan Bradley Cooper saling memandang penuh perasaan" class="w-full h-auto rounded-lg">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-4">
+                            <div>
+                                <h3 class="font-bold text-sm">A Star Is Born</h3>
+                                <div class="flex items-center mt-1">
+                                    <span class="bg-yellow-500 text-black text-xs px-1 rounded mr-1">HD</span>
+                                    <span class="text-xs">2018</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Romance Film 5 -->
+                    <div class="film-card relative group rounded-lg overflow-hidden cursor-pointer" onclick="playFilm('https://placehold.co/1920x1080', '365 Days')">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/2a582473-bd65-4918-884f-3583c5f35cf4.png" alt="365 Days poster film romantis erotis dengan pasangan terlibat dalam hubungan intens di lokasi eksotis" class="w-full h-auto rounded-lg">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-4">
+                            <div>
+                                <h3 class="font-bold text-sm">365 Days</h3>
+                                <div class="flex items-center mt-1">
+                                    <span class="bg-yellow-500 text-black text-xs px-1 rounded mr-1">HD</span>
+                                    <span class="text-xs">2020</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Romance Film 6 -->
+                    <div class="film-card relative group rounded-lg overflow-hidden cursor-pointer" onclick="playFilm('https://placehold.co/1920x1080', 'The Fault in Our Stars')">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/608c92da-69d3-4661-b9d1-65919a2315d2.png" alt="The Fault in Our Stars poster film romantis dengan pasangan muda yang sakit saling mendukung dalam perjalanan hidup" class="w-full h-auto rounded-lg">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-4">
+                            <div>
+                                <h3 class="font-bold text-sm">The Fault in Our Stars</h3>
+                                <div class="flex items-center mt-1">
+                                    <span class="bg-yellow-500 text-black text-xs px-1 rounded mr-1">HD</span>
+                                    <span class="text-xs">2014</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sci-Fi Section -->
+            <div class="mb-16" id="scifi-section">
+                <h3 class="text-2xl font-bold mb-6 flex items-center">
+                    <span class="w-2 h-6 bg-blue-500 mr-2"></span>
+                    Sci-Fi
+                </h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-5">
+                    <!-- Sci-Fi Film 1 -->
+                    <div class="film-card relative group rounded-lg overflow-hidden cursor-pointer" onclick="playFilm('https://placehold.co/1920x1080', 'Dune: Part Two')">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/881d7092-19cf-4a47-bc87-aa3eeb9b2b6f.png" alt="Dune Part Two poster film sci-fi dengan Timothée Chalamet sebagai Paul Atreides di padang pasir Arrakis" class="w-full h-auto rounded-lg">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-4">
+                            <div>
+                                <h3 class="font-bold text-sm">Dune: Part Two</h3>
+                                <div class="flex items-center mt-1">
+                                    <span class="bg-yellow-500 text-black text-xs px-1 rounded mr-1">HD</span>
+                                    <span class="text-xs">2024</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sci-Fi Film 2 -->
+                    <div class="film-card relative group rounded-lg overflow-hidden cursor-pointer" onclick="playFilm('https://placehold.co/1920x1080', 'Interstellar')">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/ed2f15db-4c3e-433a-9372-a60e6369b272.png" alt="Interstellar poster film sci-fi dengan pesawat ruang angkasa melintasi wormhole di depan latar belakang ruang angkasa" class="w-full h-auto rounded-lg">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-4">
+                            <div>
+                                <h3 class="font-bold text-sm">Interstellar</h3>
+                                <div class="flex items-center mt-1">
+                                    <span class="bg-yellow-500 text-black text-xs px-1 rounded mr-1">HD</span>
+                                    <span class="text-xs">2014</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sci-Fi Film 3 -->
+                    <div class="film-card relative group rounded-lg overflow-hidden cursor-pointer" onclick="playFilm('https://placehold.co/1920x1080', 'The Creator')">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/60b58b65-27fd-4ca1-b71a-718d2bb48eda.png" alt="The Creator poster film sci-fi dengan kota futuristik dan android humanoid di tengah konflik manusia vs mesin" class="w-full h-auto rounded-lg">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-4">
+                            <div>
+                                <h3 class="font-bold text-sm">The Creator</h3>
+                                <div class="flex items-center mt-1">
+                                    <span class="bg-yellow-500 text-black text-xs px-1 rounded mr-1">HD</span>
+                                    <span class="text-xs">2023</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sci-Fi Film 4 -->
+                    <div class="film-card relative group rounded-lg overflow-hidden cursor-pointer" onclick="playFilm('https://placehold.co/1920x1080', 'Avatar 2')">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/f346ba0e-b11f-4fc1-a131-87f5287781e3.png" alt="Avatar 2 poster film sci-fi dengan karakter biru di dunia Pandora dengan visual efek spektakuler" class="w-full h-auto rounded-lg">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-4">
+                            <div>
+                                <h3 class="font-bold text-sm">Avatar 2</h3>
+                                <div class="flex items-center mt-1">
+                                    <span class="bg-yellow-500 text-black text-xs px-1 rounded mr-1">HD</span>
+                                    <span class="text-xs">2022</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sci-Fi Film 5 -->
+                    <div class="film-card relative group rounded-lg overflow-hidden cursor-pointer" onclick="playFilm('https://placehold.co/1920x1080', 'Tenet')">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/4ae015b7-eefb-4a6d-b156-364d359c0dd1.png" alt="Tenet poster film sci-fi dengan John David Washington memegang senjata di tengah konsep waktu yang terbalik" class="w-full h-auto rounded-lg">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-4">
+                            <div>
+                                <h3 class="font-bold text-sm">Tenet</h3>
+                                <div class="flex items-center mt-1">
+                                    <span class="bg-yellow-500 text-black text-xs px-1 rounded mr-1">HD</span>
+                                    <span class="text-xs">2020</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sci-Fi Film 6 -->
+                    <div class="film-card relative group rounded-lg overflow-hidden cursor-pointer" onclick="playFilm('https://placehold.co/1920x1080', 'Blade Runner 2049')">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/f369e44e-c793-4298-b627-8d1c222a64dc.png" alt="Blade Runner 2049 poster film sci-fi neo-noir dengan Ryan Gosling di tengah kota futuristik gelap" class="w-full h-auto rounded-lg">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-4">
+                            <div>
+                                <h3 class="font-bold text-sm">Blade Runner 2049</h3>
+                                <div class="flex items-center mt-1">
+                                    <span class="bg-yellow-500 text-black text-xs px-1 rounded mr-1">HD</span>
+                                    <span class="text-xs">2017</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Superhero Section -->
+            <div class="mb-16" id="superhero-section">
+                <h3 class="text-2xl font-bold mb-6 flex items-center">
+                    <span class="w-2 h-6 bg-red-600 mr-2"></span>
+                    Superhero
+                </h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-5">
+                    <!-- Superhero Film 1 -->
+                    <div class="film-card relative group rounded-lg overflow-hidden cursor-pointer" onclick="playFilm('https://placehold.co/1920x1080', 'The Marvels')">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/d3bac8b5-6a9b-430e-8c99-638cc4442173.png" alt="The Marvels poster film superhero dengan trio pahlawan super wanita Marvel siap bertempur" class="w-full h-auto rounded-lg">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-4">
+                            <div>
+                                <h3 class="font-bold text-sm">The Marvels</h3>
+                                <div class="flex items-center mt-1">
+                                    <span class="bg-yellow-500 text-black text-xs px-1 rounded mr-1">HD</span>
+                                    <span class="text-xs">2023</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Superhero Film 2 -->
+                    <div class="film-card relative group rounded-lg overflow-hidden cursor-pointer" onclick="playFilm('https://placehold.co/1920x1080', 'Blue Beetle')">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/f6f8aa33-3d90-48a1-ac3f-d323007be6ce.png" alt="Blue Beetle poster film superhero dengan karakter utama mengenakan armor biru futuristik" class="w-full h-auto rounded-lg">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-4">
+                            <div>
+                                <h3 class="font-bold text-sm">Blue Beetle</h3>
+                                <div class="flex items-center mt-1">
+                                    <span class="bg-yellow-500 text-black text-xs px-1 rounded mr-1">HD</span>
+                                    <span class="text-xs">2023</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Superhero Film 3 -->
+                    <div class="film-card relative group rounded-lg overflow-hidden cursor-pointer" onclick="playFilm('https://placehold.co/1920x1080', 'Spider-Man: Across the Spider-Verse')">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/51f991bf-6b9a-483f-8daa-9f929d1c8e66.png" alt="Spider-Man Across the Spider-Verse poster film superhero animasi dengan Miles Morales berdiri di antara banyak Spider-Man dari berbagai dimensi" class="w-full h-auto rounded-lg">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-4">
+                            <div>
+                                <h3 class="font-bold text-sm">Spider-Man: Across the Spider-Verse</h3>
+                                <div class="flex items-center mt-1">
+                                    <span class="bg-yellow-500 text-black text-xs px-1 rounded mr-1">HD</span>
+                                    <span class="text-xs">2023</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Superhero Film 4 -->
+                    <div class="film-card relative group rounded-lg overflow-hidden cursor-pointer" onclick="playFilm('https://placehold.co/1920x1080', 'The Batman')">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/05c87fac-9d60-4e2b-817c-2d94d70bf540.png" alt="The Batman poster film superhero dengan Robert Pattinson sebagai Batman berdiri di tengah hujan" class="w-full h-auto rounded-lg">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-4">
+                            <div>
+                                <h3 class="font-bold text-sm">The Batman</h3>
+                                <div class="flex items-center mt-1">
+                                    <span class="bg-yellow-500 text-black text-xs px-1 rounded mr-1">HD</span>
+                                    <span class="text-xs">2022</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Superhero Film 5 -->
+                    <div class="film-card relative group rounded-lg overflow-hidden cursor-pointer" onclick="playFilm('https://placehold.co/1920x1080', 'Black Panther: Wakanda Forever')">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/1f49730b-6ba8-406e-8ec9-7bdf04bac314.png" alt="Black Panther Wakanda Forever poster film superhero dengan karakter Black Panther baru di depan kerajaan Wakanda" class="w-full h-auto rounded-lg">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-4">
+                            <div>
+                                <h3 class="font-bold text-sm">Black Panther: Wakanda Forever</h3>
+                                <div class="flex items-center mt-1">
+                                    <span class="bg-yellow-500 text-black text-xs px-1 rounded mr-1">HD</span>
+                                    <span class="text-xs">2022</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Superhero Film 6 -->
+                    <div class="film-card relative group rounded-lg overflow-hidden cursor-pointer" onclick="playFilm('https://placehold.co/1920x1080', 'Thor: Love and Thunder')">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/79ac02b1-d244-445b-9fcb-466b3b6b516b.png" alt="Thor Love and Thunder poster film superhero dengan Chris Hemsworth sebagai Thor bersama Jane Foster yang menjadi Thor wanita" class="w-full h-auto rounded-lg">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-4">
+                            <div>
+                                <h3 class="font-bold text-sm">Thor: Love and Thunder</h3>
+                                <div class="flex items-center mt-1">
+                                    <span class="bg-yellow-500 text-black text-xs px-1 rounded mr-1">HD</span>
+                                    <span class="text-xs">2022</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- New Releases Section -->
+    <section id="new" class="py-16 px-6 bg-gray-900">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-3xl font-bold mb-10">🎬 Film Terbaru</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- New Film 1 -->
+                <div class="film-card bg-gray-800 rounded-lg overflow-hidden shadow-lg">
+                    <div class="relative overflow-hidden" onclick="playFilm('https://placehold.co/1920x1080', 'Fast X')">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/c810542b-b306-4edd-a7e8-17dbb31011f1.png" alt="Fast X poster film action terbaru dengan Dominic Toretto dan timnya di depan mobil-mobil keren" class="w-full h-48 object-cover transition duration-500 hover:scale-110">
+                        <div class="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded">NEW</div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-bold text-lg mb-2">Fast X</h3>
+                        <p class="text-gray-400 mb-3 text-sm">Dom Toretto dan keluarga kembali dengan petualangan paling berbahaya mereka sampai saat ini.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-yellow-400 text-sm">★ 7.8/10</span>
+                            <span class="bg-gray-700 text-white text-xs px-2 py-1 rounded">Action</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- New Film 2 -->
+                <div class="film-card bg-gray-800 rounded-lg overflow-hidden shadow-lg">
+                    <div class="relative overflow-hidden" onclick="playFilm('https://placehold.co/1920x1080', 'The Nun 2')">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/cf9a3a1c-4f85-47e3-8b46-94cf5ce8682c.png" alt="The Nun 2 poster film horror terbaru dengan biarawati menyeramkan di gereja tua gelap" class="w-full h-48 object-cover transition duration-500 hover:scale-110">
+                        <div class="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded">NEW</div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-bold text-lg mb-2">The Nun 2</h3>
+                        <p class="text-gray-400 mb-3 text-sm">Teror kembali ketika biarawati jahat Valak kembali untuk menghantui kehidupan baru.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-yellow-400 text-sm">★ 6.9/10</span>
+                            <span class="bg-gray-700 text-white text-xs px-2 py-1 rounded">Horror</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- New Film 3 -->
+                <div class="film-card bg-gray-800 rounded-lg overflow-hidden shadow-lg">
+                    <div class="relative overflow-hidden" onclick="playFilm('https://placehold.co/1920x1080', 'Dune: Part Two')">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/7dc2bdb7-1c65-427e-a62d-fde648e454d9.png" alt="Dune Part Two poster film sci-fi terbaru dengan Paul Atreides memimpin pemberontakan di gurun pasir Arrakis" class="w-full h-48 object-cover transition duration-500 hover:scale-110">
+                        <div class="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded">NEW</div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-bold text-lg mb-2">Dune: Part Two</h3>
+                        <p class="text-gray-400 mb-3 text-sm">Kelanjutan epik petualangan Paul Atreides saat ia memenuhi takdirnya di gurun planet Arrakis.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-yellow-400 text-sm">★ 9.1/10</span>
+                            <span class="bg-gray-700 text-white text-xs px-2 py-1 rounded">Sci-Fi</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black text-white py-12 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h2 class="text-2xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-pink-500">ZIDAN CINEMA</h2>
+                    <p class="text-gray-400">Tempat terbaik untuk menikmati pengalaman nonton film premium dengan kualitas tertinggi.</p>
+                </div>
+                
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Navigasi</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Beranda</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Film</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Genre</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Trending</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Legal</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Syarat & Ketentuan</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Kebijakan Privasi</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Cookie Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Disclaimer</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Kontak Kami</h3>
+                    <div class="flex items-center space-x-2 mb-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                        </svg>
+                        <span class="text-gray-400">+62 838-3730-5723</span>
+                    </div>
+                    <div class="flex items-center space-x-2 mb-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                        <span class="text-gray-400">support@zidancinema.com</span>
+                    </div>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" />
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-10 pt-6 text-center text-gray-500">
+                <p>© 2023 Zidan Cinema. Semua Hak Cipta Dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="relative mx-auto max-w-md w-full h-full">
+            <span class="absolute top-4 right-4 text-white text-3xl font-bold cursor-pointer hover:text-red-500 transition" onclick="closeModal()">&times;</span>
+            
+            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full px-4">
+                <div class="bg-gray-900 rounded-lg overflow-hidden p-8">
+                    <h2 class="text-2xl font-bold mb-6 text-center">Login ke Zidan Cinema</h2>
+                    <form>
+                        <div class="mb-4">
+                            <label class="block text-gray-300 mb-2">Email</label>
+                            <input type="email" class="w-full bg-gray-800 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500">
+                        </div>
+                        <div class="mb-6">
+                            <label class="block text-gray-300 mb-2">Password</label>
+                            <input type="password" class="w-full bg-gray-800 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500">
+                        </div>
+                        <button type="submit" class="w-full bg-gradient-to-r from-red-500 to-pink-500 px-6 py-3 rounded-lg font-medium hover:opacity-90 transition">Login</button>
+                        <p class="text-center mt-4 text-gray-400">Belum punya akun? <a href="#" class="text-white hover:underline" onclick="showRegister()">Daftar disini</a></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="registerModal" class="modal" style="display: none;">
+        <div class="relative mx-auto max-w-md w-full h-full">
+            <span class="absolute top-4 right-4 text-white text-3xl font-bold cursor-pointer hover:text-red-500 transition" onclick="closeModal()">&times;</span>
+            
+            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full px-4">
+                <div class="bg-gray-900 rounded-lg overflow-hidden p-8">
+                    <h2 class="text-2xl font-bold mb-6 text-center">Daftar Akun Baru</h2>
+                    <form>
+                        <div class="mb-4">
+                            <label class="block text-gray-300 mb-2">Nama Lengkap</label>
+                            <input type="text" class="w-full bg-gray-800 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-300 mb-2">Email</label>
+                            <input type="email" class="w-full bg-gray-800 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500">
+                        </div>
+                        <div class="mb-6">
+                            <label class="block text-gray-300 mb-2">Password</label>
+                            <input type="password" class="w-full bg-gray-800 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500">
+                        </div>
+                        <button type="submit" class="w-full bg-gradient-to-r from-red-500 to-pink-500 px-6 py-3 rounded-lg font-medium hover:opacity-90 transition">Daftar</button>
+                        <p class="text-center mt-4 text-gray-400">Sudah punya akun? <a href="#" class="text-white hover:underline" onclick="showLogin()">Login disini</a></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Player Modal -->
+    <div id="playerModal" class="modal">
+        <div class="relative mx-auto max-w-4xl w-full h-full">
+            <span class="absolute top-4 right-4 text-white text-3xl font-bold cursor-pointer hover:text-red-500 transition" onclick="closeModal()">&times;</span>
+            
+            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full px-4">
+                <div class="bg-black rounded-lg overflow-hidden">
+                    <div class="player-container">
+                        <iframe id="videoPlayer" class="w-full h-full" src="" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+                    </div>
+                    
+                    <div class="p-6 bg-gray-900">
+                        <h2 id="filmTitle" class="text-2xl font-bold mb-2">Judul Film</h2>
+                        <div class="flex items-center mb-4">
+                            <span class="bg-yellow-500 text-black px-2 py-1 rounded text-xs mr-2">HD</span>
+                            <span class="text-gray-400 text-sm">2023 • Action • 2h 30m</span>
+                        </div>
+                        <p id="filmDescription" class="text-gray-300 mb-4">
+                            Deskripsi film akan muncul di sini. Cerita lengkap dan sinopsis film yang sedang diputar.
+                        </p>
+                        <div class="flex space-x-3">
+                            <button class="bg-gradient-to-r from-red-500 to-pink-500 px-6 py-2 rounded-lg font-medium hover:opacity-90 transition">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                Putar
+                            </button>
+                            <button class="bg-gray-700 px-6 py-2 rounded-lg font-medium hover:bg-gray-600 transition">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                                </svg>
+                                Simpan
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Fungsi untuk login/register modal
+        function showLogin() {
+            document.getElementById('loginModal').style.display = 'block';
+            document.getElementById('registerModal').style.display = 'none';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function showRegister() {
+            document.getElementById('registerModal').style.display = 'block';
+            document.getElementById('loginModal').style.display = 'none';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('loginModal').style.display = 'none';
+            document.getElementById('registerModal').style.display = 'none';
+            document.getElementById('playerModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Fungsi untuk memutar film
+        function playFilm(videoUrl, title) {
+            document.getElementById('videoPlayer').src = videoUrl;
+            document.getElementById('filmTitle').textContent = title;
+            
+            // Set deskripsi film berdasarkan judul
+            const descriptions = {
+                "John Wick 4": "John Wick kembali dengan misi terbarunya melawan organisasi paling berbahaya di dunia kriminal bawah tanah.",
+                "Avatar 2": "Petualangan epik keluarga Sully di dunia Pandora yang penuh keajaiban dan bahaya baru.",
+                "Mission: Impossible 7": "Ethan Hunt dan tim IMF kembali dengan misi paling berbahaya mereka sampai saat ini."
+                // Tambahkan deskripsi untuk film lainnya di sini
+            };
+            
+            document.getElementById('filmDescription').textContent = descriptions[title] || `${title} adalah film terbaru yang penuh dengan aksi dan cerita menarik.`;
+            
+            document.getElementById('playerModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Fungsi untuk menutup modal
+        function closeModal() {
+            document.getElementById('videoPlayer').src = '';
+            document.getElementById('playerModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Tutup modal ketika klik di luar konten
+        window.onclick = function(event) {
+            const modal = document.getElementById('playerModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+        
+        // Smooth scroll untuk navlink
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Filter berdasarkan genre
+        const genreTabs = document.querySelectorAll('.genre-tab');
+        genreTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Hapus kelas active dari semua tab
+                genreTabs.forEach(t => t.classList.remove('active'));
+                // Tambahkan kelas active ke tab yang diklik
+                this.classList.add('active');
+                
+                const genre = this.textContent.trim();
+                if(genre === 'Semua') {
+                    document.querySelectorAll('[id$="-section"]').forEach(section => {
+                        section.style.display = 'block';
+                    });
+                } else {
+                    // Sembunyikan semua bagian genre
+                    document.querySelectorAll('[id$="-section"]').forEach(section => {
+                        section.style.display = 'none';
+                    });
+                    // Tampilkan bagian genre yang dipilih
+                    const sectionId = `${genre.toLowerCase()}-section`;
+                    const section = document.getElementById(sectionId);
+                    if(section) section.style.display = 'block';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
